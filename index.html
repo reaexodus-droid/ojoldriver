@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Driver Maps</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         MAP
+    ========================== -->
+
+    <div id="map"></div>
+
+
+    <!-- =========================
+         SEARCH
+    ========================== -->
+
+    <div id="search-container"></div>
+
+
+    <!-- =========================
+         STATUS GPS
+    ========================== -->
+
+    <div id="gps-status">
+
+        <span id="gps-dot"></span>
+
+        <span id="gps-text">
+            GPS tidak aktif
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         TOMBOL MAP
+    ========================== -->
+
+    <div class="map-controls">
+
+        <button
+            id="location-btn"
+            title="Lokasi saya"
+        >
+            ◎
+        </button>
+
+
+        <button
+            id="add-point-btn"
+            title="Tambah titik"
+        >
+            +
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         PANEL TAMBAH TITIK
+    ========================== -->
+
+    <div
+        id="point-panel"
+        class="panel hidden"
+    >
+
+        <div class="panel-header">
+
+            <h2>
+                Tambah Titik
+            </h2>
+
+            <button
+                id="close-panel"
+                class="close-btn"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="panel-info">
+
+            Klik pada peta untuk memilih
+            koordinat.
+
+        </div>
+
+
+        <label>
+            Nama Lokasi
+        </label>
+
+        <input
+            id="nama"
+            type="text"
+            placeholder="Contoh: Gudang A"
+        >
+
+
+        <label>
+            Latitude
+        </label>
+
+        <input
+            id="lat"
+            type="text"
+            readonly
+            placeholder="Klik peta"
+        >
+
+
+        <label>
+            Longitude
+        </label>
+
+        <input
+            id="lng"
+            type="text"
+            readonly
+            placeholder="Klik peta"
+        >
+
+
+        <label>
+            Status
+        </label>
+
+        <select id="status">
+
+            <option value="Fiktif">
+                Fiktif
+            </option>
+
+            <option value="Asli">
+                Asli
+            </option>
+
+            <option value="Survey">
+                Survey
+            </option>
+
+        </select>
+
+
+        <label>
+            Keterangan
+        </label>
+
+        <textarea
+            id="ket"
+            placeholder="Keterangan lokasi..."
+        ></textarea>
+
+
+        <button
+            id="save-point"
+            class="primary-btn"
+        >
+            Simpan Titik
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         INFO LOKASI SEARCH
+    ========================== -->
+
+    <div
+        id="place-info"
+        class="place-card hidden"
+    >
+
+        <button
+            id="close-place"
+            class="place-close"
+        >
+            ×
+        </button>
+
+
+        <div id="place-name">
+            -
+        </div>
+
+
+        <div id="place-address">
+            -
+        </div>
+
+
+        <div class="coordinates">
+
+            <span id="place-lat">
+                -
+            </span>
+
+            ,
+
+            <span id="place-lng">
+                -
+            </span>
+
+        </div>
+
+
+        <button
+            id="use-place"
+            class="primary-btn"
+        >
+            Gunakan Lokasi Ini
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         GOOGLE MAPS
+    ========================== -->
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places,marker&v=weekly"
+        defer
+    ></script>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
