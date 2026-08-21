@@ -2,54 +2,87 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0"
     >
 
     <title>Driver Maps</title>
 
-    <link rel="stylesheet" href="style.css">
+
+    <!-- MAPLIBRE -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
+    />
+
+
+    <!-- GEOCODER -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/@maplibre/maplibre-gl-geocoder@1.14.0/dist/maplibre-gl-geocoder.css"
+    />
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    />
+
 </head>
+
 
 <body>
 
-    <!-- =========================
+
+    <!-- ==================================================
          MAP
-    ========================== -->
+    =================================================== -->
 
     <div id="map"></div>
 
 
-    <!-- =========================
+    <!-- ==================================================
          SEARCH
-    ========================== -->
+    =================================================== -->
 
-    <div id="search-container"></div>
+    <div
+        id="search-box"
+        class="search-box"
+    ></div>
 
 
-    <!-- =========================
-         STATUS GPS
-    ========================== -->
+    <!-- ==================================================
+         GPS STATUS
+    =================================================== -->
 
-    <div id="gps-status">
+    <div
+        id="gps-status"
+        class="gps-status"
+    >
 
         <span id="gps-dot"></span>
 
         <span id="gps-text">
-            GPS tidak aktif
+            GPS belum aktif
         </span>
 
     </div>
 
 
-    <!-- =========================
-         TOMBOL MAP
-    ========================== -->
+    <!-- ==================================================
+         MAP CONTROLS
+    =================================================== -->
 
     <div class="map-controls">
+
 
         <button
             id="location-btn"
@@ -60,22 +93,130 @@
 
 
         <button
-            id="add-point-btn"
+            id="route-btn"
+            title="Rute ke tujuan"
+        >
+            ➤
+        </button>
+
+
+        <button
+            id="add-btn"
             title="Tambah titik"
         >
             +
         </button>
 
+
     </div>
 
 
-    <!-- =========================
-         PANEL TAMBAH TITIK
-    ========================== -->
+    <!-- ==================================================
+         ROUTE INFO
+    =================================================== -->
+
+    <div
+        id="route-card"
+        class="route-card hidden"
+    >
+
+        <button
+            id="close-route"
+            class="close-small"
+        >
+            ×
+        </button>
+
+
+        <div class="route-title">
+            Rute Driver
+        </div>
+
+
+        <div
+            id="route-distance"
+            class="route-value"
+        >
+            -
+        </div>
+
+
+        <div
+            id="route-time"
+            class="route-sub"
+        >
+            -
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         PLACE CARD
+    =================================================== -->
+
+    <div
+        id="place-card"
+        class="place-card hidden"
+    >
+
+        <button
+            id="close-place"
+            class="close-small"
+        >
+            ×
+        </button>
+
+
+        <div
+            id="place-name"
+            class="place-name"
+        >
+            -
+        </div>
+
+
+        <div
+            id="place-address"
+            class="place-address"
+        >
+            -
+        </div>
+
+
+        <div
+            id="place-coordinates"
+            class="coordinates"
+        >
+            -
+        </div>
+
+
+        <button
+            id="use-place-btn"
+            class="primary-btn"
+        >
+            Gunakan sebagai Tujuan
+        </button>
+
+
+        <button
+            id="save-place-btn"
+            class="secondary-btn"
+        >
+            Tambahkan sebagai Titik
+        </button>
+
+    </div>
+
+
+    <!-- ==================================================
+         ADD POINT PANEL
+    =================================================== -->
 
     <div
         id="point-panel"
-        class="panel hidden"
+        class="point-panel hidden"
     >
 
         <div class="panel-header">
@@ -84,9 +225,10 @@
                 Tambah Titik
             </h2>
 
+
             <button
                 id="close-panel"
-                class="close-btn"
+                class="close-small"
             >
                 ×
             </button>
@@ -96,8 +238,8 @@
 
         <div class="panel-info">
 
-            Klik pada peta untuk memilih
-            koordinat.
+            Klik lokasi di peta atau pilih
+            lokasi dari pencarian.
 
         </div>
 
@@ -110,7 +252,7 @@
             id="nama"
             type="text"
             placeholder="Contoh: Gudang A"
-        >
+        />
 
 
         <label>
@@ -122,7 +264,7 @@
             type="text"
             readonly
             placeholder="Klik peta"
-        >
+        />
 
 
         <label>
@@ -134,7 +276,7 @@
             type="text"
             readonly
             placeholder="Klik peta"
-        >
+        />
 
 
         <label>
@@ -163,7 +305,7 @@
         </label>
 
         <textarea
-            id="ket"
+            id="keterangan"
             placeholder="Keterangan lokasi..."
         ></textarea>
 
@@ -178,69 +320,26 @@
     </div>
 
 
-    <!-- =========================
-         INFO LOKASI SEARCH
-    ========================== -->
-
-    <div
-        id="place-info"
-        class="place-card hidden"
-    >
-
-        <button
-            id="close-place"
-            class="place-close"
-        >
-            ×
-        </button>
-
-
-        <div id="place-name">
-            -
-        </div>
-
-
-        <div id="place-address">
-            -
-        </div>
-
-
-        <div class="coordinates">
-
-            <span id="place-lat">
-                -
-            </span>
-
-            ,
-
-            <span id="place-lng">
-                -
-            </span>
-
-        </div>
-
-
-        <button
-            id="use-place"
-            class="primary-btn"
-        >
-            Gunakan Lokasi Ini
-        </button>
-
-    </div>
-
-
-    <!-- =========================
-         GOOGLE MAPS
-    ========================== -->
+    <!-- ==================================================
+         LIBRARIES
+    =================================================== -->
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places,marker&v=weekly"
-        defer
+        src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"
     ></script>
 
 
+    <script
+        src="https://unpkg.com/@maplibre/maplibre-gl-geocoder@1.14.0/dist/maplibre-gl-geocoder.min.js"
+    ></script>
+
+
+    <!-- ==================================================
+         APP
+    =================================================== -->
+
     <script src="script.js"></script>
+
 
 </body>
 
